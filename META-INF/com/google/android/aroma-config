@@ -326,7 +326,7 @@ menubox(
   # TITLE                   |  SUBTITLE                                                 |   Item Icons  #
   #-------------------------+-----------------------------------------------------------+---------------#
   
-    "Instalation",      	   "Install LKernel",       			                       "@install",      #-- selected = 1
+    "Instalation",      	  "Install LKernel",       			                           "@install",      #-- selected = 1
     "System Info",       	  "Get and show device/partition informations",                "@info",         #-- selected = 2
     "Changelog",              "Kernle changelog",    									   "@default",      #-- selected = 3
     "Quit Install",           "Quit installation",                  					   "@quit"          #-- selected = 4
@@ -457,11 +457,10 @@ if (prop("type.prop","selected")=="1") then
 	  "mods.prop",
 	
 	#-- Default Values
-	  "selected.1=1\n"+    #-- Default Kernel = 2.6.0 Kernel
-	  "selected.2=1\n"+    #-- Default Boot Animation = Default Nexus S
-	  "selected.3=1\n"+    #-- Default SD-EXT Mods = Generic APP2SD
-	  "selected.4=1\n"+    #-- Default IME = Android IME
-	  "selected.5=1\n"     #-- Default Camera = Android Generic Camera
+	  "selected.1=0\n"+    #-- Device = P760
+	  "selected.2=0\n"+    #-- SmartReflex = No
+	  "selected.3=1\n"+    #-- Overclock/Undervolt = No
+	  "selected.4=0\n"+    #-- S2W and DT2W = No
   );
 else
   #-- IF Not "Default" Show Main Features Selection
@@ -482,153 +481,25 @@ else
 	  # TITLE            |  SUBTITLE                                                 | Initial Value #
 	  #------------------+-----------------------------------------------------------+---------------#
 
-	  "Kernel",                "",                                                            2,  #-- Group 1. key = "selected.1"
-	    "2.6.8 Kernel",        "Stable amarullz kernel 2.6.8",                                1,      #-- selected.1 = 1
-		"3.0.0 Kernel",        "Experimental amarullz kernel 3.0.0",                          0,      #-- selected.1 = 2
-		"AROMA Kernel",        "High performance amarullz AROMA kernel, base on 2.6.8",       0,      #-- selected.1 = 3
+	  "Device",             "Select your device",                                    2,  #-- Group 1. key = "selected.1"
+	    "P760",        		"Kernel for LG L9 P760 variant",                               1,      #-- selected.1 = 0
+		"P769/P765",        "Kernel for LG L9 P765/P768 variant",                          0,      #-- selected.1 = 1
 
-      "Boot Animation",        "",                                                            2,  #-- Group 2. key = "selected.2"
-	    "Default Nexus S",     "Default Nexus S Android boot animation",                      1,      #-- selected.2 = 1
-		"AROMA Boot Animation","AROMA Earthquake logo boot animation",                        0,      #-- selected.2 = 2
-		"HTC Generic",         "Generic white HTC Quitely Briliant boot animation",           0,      #-- selected.2 = 3
-		"Old Android",         "Old Android logo boot animation",                             0,      #-- selected.2 = 4
+      "SmartReflex",        "",                                                      2,  #-- Group 2. key = "selected.2"
+	    "Yes",              "Smartreflex wil be enabled(this can cause boot problems on some devices)", 0, #-- selected.2 = 1
+		"No",               "Smartreflex wil be enabled",                         	   1,      #-- selected.2 = 0
       
-	  "SD-EXT Mods",           "",                                                            2,  #-- Group 3. key = "selected.3"
-	    "Generic APP2SD",      "Generic app2sd, all non-system apk in sd-ext",                1,      #-- selected.3 = 1
-		"AD2SDX",              "All non-system files in sd-ext",                              0,      #-- selected.3 = 2
-		"Data2SD",             "All data files in sd-ext",                                    0,      #-- selected.3 = 3
+	  "Overclock/Undervolt",  "",                                                    2,  #-- Group 3. key = "selected.3"
+	    "Yes",     		  "Overclocking/Undervolting wil be enabled",                       1,      #-- selected.3 = 1
+		"No",             "Overclocking/Undervolting wil be disabled",                      0,      #-- selected.3 = 0
 	  
-	  "Input Method",          "",                                                            2,  #-- Group 3. key = "selected.3"
-	    "Android IME",         "Android AOSP Keyboard",                                       1,      #-- selected.3 = 1
-		"HTC IME",             "HTC IME with T9 Support",                                     0,      #-- selected.3 = 2
-	  
-	  "Camera",                "",                                                            2,  #-- Group 3. key = "selected.4"
-	    "Android Camera",      "Android AOSP Generic Camera",                                 1,      #-- selected.4 = 1
-		"HTC Camera 3.5",      "New and No FC Error, but No 720p Video Recording",            0,      #-- selected.4 = 2
-		"HTC Camera 3.0",      "Old Camera With 720p Recording, but FC Error in Preview.",    0       #-- selected.4 = 3
+	  "S2W and DT2W",          "Sweep2Wake & Doubletap2Wake",                          2,  #-- Group 3. key = "selected.3"
+	    "Yes",         	  "Enabled",                                       			        0,      #-- selected.3 = 1
+		"No",             "Disabled",                                     			        1,      #-- selected.3 = 0
 
 	  #--------[ Initial Value = 0: Unselected, 1: Selected, 2: Group Item, 3: Not Visible ]---------#
   );
 endif;
-
-
-###################################################################################################################
-#
-# STEP 8 - CUSTOMIZE YOUR INSTALLATION
-#
-if (prop("type.prop","selected")!="4") then
-  #-- IF Installation type not "Custom", don't show custom setup, then write default customize.prop
-  #-- NOTE: customize.prop should exists, or updater-script will error
-  writetmpfile(
-    #-- Prop file will write to /tmp/aroma/customize.prop
-	  "customize.prop",
-	
-	#-- Default Values ( item.x.x = value. value=1 selected, value=0 un-selected )
-	  iif(
-	    #-- If Minimalist
-	    prop("type.prop","selected")=="3",
-		
-		#-- True Value (minimal install)
-		  "item.1.1=0\n"+    #-- Facebook
-		  "item.1.2=0\n"+    #-- Twitter
-		  "item.1.3=0\n"+    #-- AdobeFlashPlayer
-		  "item.1.4=0\n"+    #-- AdobeReader
-		  
-		  "item.2.1=0\n"+    #-- EStrongFilemanager
-		  "item.2.2=0\n"+    #-- BackupEverything
-		  "item.2.3=0\n"+    #-- DaemonController
-		  "item.2.4=0\n"+    #-- DSPManager
-		  
-		  "item.3.1=0\n"+    #-- BookmarksWidget
-		  "item.3.2=0\n"+    #-- CalculatorWidget
-		  "item.3.3=0\n"+    #-- CalendarWidget
-		  "item.3.4=0\n"+    #-- ContactWidget
-		  "item.3.5=0\n"+    #-- FMRadioWidget
-		  "item.3.6=0\n"+    #-- MusicWidget
-		  "item.3.7=0\n"+    #-- QuickLaunchWidget
-		  "item.3.8=0\n"+    #-- TrendsWidget
-		  "item.3.9=0\n"+    #-- GenieWidget
-		  
-		  "item.4.1=0\n"+    #-- HTCSkins
-		  "item.4.2=0\n"     #-- MoreSkins
-		,
-		#-- False Value (non minimal install)
-		  "item.1.1=1\n"+    #-- Facebook
-		  "item.1.2=1\n"+    #-- Twitter
-		  "item.1.3=0\n"+    #-- AdobeFlashPlayer
-		  "item.1.4=0\n"+    #-- AdobeReader
-		  
-		  "item.2.1=1\n"+    #-- EStrongFilemanager
-		  "item.2.2=0\n"+    #-- BackupEverything
-		  "item.2.3=1\n"+    #-- DaemonController
-		  "item.2.4=0\n"+    #-- DSPManager
-		  
-		  "item.3.1=0\n"+    #-- BookmarksWidget
-		  "item.3.2=0\n"+    #-- CalculatorWidget
-		  "item.3.3=0\n"+    #-- CalendarWidget
-		  "item.3.4=1\n"+    #-- ContactWidget
-		  "item.3.5=1\n"+    #-- FMRadioWidget
-		  "item.3.6=1\n"+    #-- MusicWidget
-		  "item.3.7=1\n"+    #-- QuickLaunchWidget
-		  "item.3.8=1\n"+    #-- TrendsWidget
-		  "item.3.9=0\n"+    #-- GenieWidget
-		  
-		  "item.4.1=1\n"+    #-- HTCSkins
-		  "item.4.2=0\n"     #-- MoreSkins
-	  )
-  );
-else
-  #-- IF Installation type = "Custom" Show Customize Selection
-  checkbox(
-    #-- Title
-      "Customize Your Installation",
-	  
-    #-- Sub Title
-      "Select the program or mod features you want to installed.\n"+
-	  "Select an item in the list below to change how a feature is installed.",
-	  
-    #-- Icon: <AROMA Resource Dir>/icons/personalize.png or <ThemeDir>/icon.personalize.png
-      "@personalize",
-	  
-    #-- Will be saved in /tmp/aroma/customize.prop
-      "customize.prop",
-	  
-	  #------------------------------------------------[ Checkbox Without Group ]----------------------------------------------#
-	  # TITLE            |  SUBTITLE                                                                           | Initial Value #
-	  #------------------+-------------------------------------------------------------------------------------+---------------#
-
-	  "Applications",         "",                                                                                  2,  #-- Group 1. key = "item.1.x"
-	    "Facebook",           "Share and stay connected with your friends with the Facebook for Android app",      1,      #-- item.1.1 = Selected by default
-		"Twitter",            "Follow your interests: instant updates from your friends",                          1,      #-- item.1.2 = Selected by default
-	    "Adobe FlashPlayer",  "Bring the FULL web to your device with Flash Player",                               0,      #-- item.1.3 = Un-Selected by default
-	    "Adobe Reader",       "The global standard for reliably viewing and sharing PDF documents",                0,      #-- item.1.4 = Un-Selected by default
-      
-	  "Tools & File Manager", "",                                                                                  2,  #-- Group 2. key = "item.2.x"
-	    "EStrong Filemanager","All-in-one File manager, Application manager, Task killer, "+
-		                      "Dropbox client & ftp client",                                                       1,      #-- item.2.1 = Selected by default
-		"Backup Everything",  "Makes it easy to backup/restore your files from your Android",                      0,      #-- item.2.2 = Un-Selected by default
-		"Daemon Controller",  "Control your CPU, Overclock, Governoor, Voltage an many more",                      1,      #-- item.2.3 = Selected by default
-		"DSPManager",         "Independent equalizer for the headphone, speaker, and bluetooth.",                  0,      #-- item.2.4 = Un-Selected by default
-      
-	  "Widgets",              "",                                                                                  2,  #-- Group 3. key = "item.3.x"
-	    "Bookmarks Widget",   "Your browsing bookmarks widget",                                                    0,      #-- item.3.1 = Selected by default
-        "Calculator Widget",  "Calculator on your Home Screen with selectable skins",                              0,      #-- item.3.2 = Selected by default
-        "Calendar Widget",    "Calendar and Agenda on your Home Screen",                                           0,      #-- item.3.3 = Selected by default
-        "Contact Widget",     "Show your favorite contacts in slick HTC Sense Contact Widgets",                    1,      #-- item.3.4 = Selected by default
-        "FM Radio Widget",    "Access your FM Radio directly from your Home Screen",                               1,      #-- item.3.5 = Selected by default
-        "Music Widget",       "Music Player on Home Screen Widget",                                                1,      #-- item.3.6 = Selected by default
-        "QuickLaunch Widget", "Bliss Home Screen Widget with clock and shortcuts",                                 1,      #-- item.3.7 = Selected by default
-        "Trends Widget",      "Show current trends topic on your Home Screen",                                     1,      #-- item.3.8 = Selected by default
-	    "Genie Widget",       "Show News/Weather Widget on Home screen",                                           0,      #-- item.3.9 = Un-Selected by default
-	
-	  "Skins",                "",                                                                                  2,  #-- Group 4. key = "item.4.x"
-	    "HTC Skins",          "BlueSky and Burgundy skins",                                                        1,      #-- item.4.1 = Selected by default
-        "More Skins",         "HoneyHD and IceHD Skins",                                                           0       #-- item43.2 = Un-Selected by default
-		
-	  #--------[ Initial Value = 0: Unselected, 1: Selected, 2: Group Item, 3: Not Visible ]---------#
-  );
-endif;
-
 
 ##
 #
@@ -689,20 +560,20 @@ setvar("retstatus",
 );
 
 #
-# ASK If We Want to back to demo main menu
+# ASK If We Want to back to main menu
 #
 checkviewbox(
   #-- Title
     "Post Installation",
   
   #-- Text
-    "Installation Finished. Do you want to go back to Demo Main Menu?",
+    "Installation Finished. Do you want to go back to Main Menu?",
 	
   #-- Icon
     "@welcome",
 
   #-- Checkbox Text
-    "Back To Demo Main Menu.",
+    "Back To Main Menu.",
 
   #-- Initial Checkbox value ( 0=unchecked, 1=checked ) -  (Optional, default:0)
     "1",
